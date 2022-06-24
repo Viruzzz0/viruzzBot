@@ -11,7 +11,7 @@ module.exports = {
             try {
                 const bitcoin = await fetchData(url_api);
 
-                message.channel.send(Intl.NumberFormat().format(bitcoin[0].current_price));
+                message.channel.send (`${bitcoin[0].current_price}`);
             } catch (error) {
                 console.error(error);
             }
