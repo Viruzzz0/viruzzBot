@@ -1,7 +1,8 @@
 npx nodemon index.js
 
-
+bitcoin
+ethereum
+binancecoin
+solana
 monero 
 bitconcash
-solana
-bnb
