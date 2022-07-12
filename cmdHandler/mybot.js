@@ -2,9 +2,21 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'mybot',
-    alias: [],
+    alias: ['mb'],
 
-    execute (client,message,args){
-        message.channel.send({ content: `https://discord.com/developers/applications/834249101414760448/information` });
+    async execute (client,message,args){
+
+        const rowlink = new Discord.MessageActionRow()
+        .addComponents(
+            new Discord.MessageButton()
+            .setLabel('Link')
+            .setStyle('LINK')
+            .setURL('https://discord.com/developers/applications/834249101414760448/information')
+        )
+
+        const m = await message.channel.send({ content: 'Virus_X Bot', components: [rowlink]})
+        const ifilter = i => i.user.id === message.author.id;
+
+        // message.channel.send({ content: `https://discord.com/developers/applications/834249101414760448/information` });
     }
 }

@@ -3,6 +3,7 @@ const config = require("./config.json");
 const intents = new Discord.Intents(131071);
 const client = new Discord.Client({ intents });
 const fs = require('fs');
+const { log } = require('console');
 
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync("./cmdHandler").filter(file => file.endsWith('.js'));
@@ -29,6 +30,7 @@ client.on('messageCreate', async message => {
     if (cmd) {
         cmd.execute(client, message, args);
     }
+    console.log(cmd);
 });
 
 client.login(config.token);

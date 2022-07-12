@@ -6,8 +6,8 @@ const API = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&orde
 
 
 module.exports = {
-    name: 'c',
-    alias: [],
+    name: 'cripto',
+    alias: ['c'],
 
     execute(client, message, args) {
         const anotherFunction = async (url_api) => {
