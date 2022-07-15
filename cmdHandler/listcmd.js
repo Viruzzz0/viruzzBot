@@ -8,7 +8,10 @@ module.exports = {
         message.channel.send(`Lista de ccomandos:
         ping
         mybot
-        cripto: error
+        count
+        cripto
+        bitcoin
+        button
         count
         avatar
         `);
