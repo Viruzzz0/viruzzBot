@@ -11,9 +11,32 @@ const commandFiles = fs.readdirSync("./cmdHandler").filter(file => file.endsWith
 for (const file of commandFiles) {
 	const command = require(`./cmdHandler/${file}`);
 	client.commands.set(command.name, command);
-	
+	// console.log(command);
     const commandName = file.split('.'[0])
 }
+
+client.slashcommands = new Discord.Collection();
+const slashcommandsFiles = fs.readdirSync("./slashcmd").filter(file => file.endsWith('.js'))
+
+for (const file of slashcommandsFiles) {
+    const slash = require(`./slashcmd/${file}`)
+    console.log(`Slash command - ${file} cargado.`)
+    client.slashcommands.set(slash.data.name, slash)
+}
+
+client.on('interactionCreate', async(interaction) => {
+    if (!interaction.isCommand()) return;
+
+    const slashcmds = client.slashcommands.get(interaction.commandName)
+
+    if (!slashcmds) return
+
+    try {
+        await slashcmds.run(client, interaction);
+    }catch (err) {  
+        console.error(err);
+    }
+})
 
 client.on('messageCreate', async message => {
 
@@ -30,7 +53,6 @@ client.on('messageCreate', async message => {
     if (cmd) {
         cmd.execute(client, message, args);
     }
-    console.log(cmd);
 });
 
 client.login(config.token);

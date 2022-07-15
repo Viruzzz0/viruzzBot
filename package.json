@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/rest": "^0.5.0",
     "discord.js": "^13.8.0",
     "fs": "^0.0.1-security",
     "xmlhttprequest": "^1.8.0"
