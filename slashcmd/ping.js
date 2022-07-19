@@ -8,7 +8,9 @@ module.exports = {
     .setDescription("El bot responderá con su ping en ms."),
 
     async run(client, interaction){
-        interaction.reply({ content: `Pong! **${client.ws.ping}**` });
+        interaction.reply({ 
+            content: `Pong! **${client.ws.ping}**`
+        });
     }
 }
 

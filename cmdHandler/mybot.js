@@ -14,8 +14,7 @@ module.exports = {
             .setURL('https://discord.com/developers/applications/834249101414760448/information')
         )
 
-        const m = await message.channel.send({ content: 'Virus_X Bot', components: [rowlink]})
-        const ifilter = i => i.user.id === message.author.id;
+        const m = await message.channel.send({ content: 'aqui esta mi coso', components: [rowlink]})
 
         // message.channel.send({ content: `https://discord.com/developers/applications/834249101414760448/information` });
     }

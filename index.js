@@ -20,7 +20,7 @@ const slashcommandsFiles = fs.readdirSync("./slashcmd").filter(file => file.ends
 
 for (const file of slashcommandsFiles) {
     const slash = require(`./slashcmd/${file}`)
-    console.log(`Slash command - ${file} cargado.`)
+    // console.log(`Slash command - ${file} cargado.`)
     client.slashcommands.set(slash.data.name, slash)
 }
 

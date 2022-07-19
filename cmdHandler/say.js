@@ -11,9 +11,8 @@ module.exports = {
 
         setTimeout(function(){
             message.delete();
-            message.channel.send(`${mensaje}`)
-            
-            console.log(message.channel);
+            message.channel.send(`${mensaje}`)    
+            // console.log(message.channel);
         },700)
 
     }
