@@ -1,8 +1,21 @@
-npx nodemon index.js
+// npx nodemon index.js
 
-bitcoin
-ethereum
-binancecoin
-solana
-monero 
-bitconcash
+// leer slash "node slashcommands"
+
+
+// Otra forma de darle delay a una respuesta
+// https://discordjs.guide/interactions/slash-commands.html#ephemeral-responses
+
+/*
+const wait = require('node:timers/promises').setTimeout;
+
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isChatInputCommand()) return;
+
+	if (interaction.commandName === 'ping') {
+		await interaction.reply('Pong!');
+		await wait(2000);
+		await interaction.editReply('Pong again!');
+	}
+});
+*/

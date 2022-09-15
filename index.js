@@ -5,6 +5,8 @@ const client = new Discord.Client({ intents });
 const fs = require('fs');
 const { log } = require('console');
 
+// Functions que carga los comandos Handler 
+
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync("./cmdHandler").filter(file => file.endsWith('.js'));
 
@@ -14,6 +16,8 @@ for (const file of commandFiles) {
 	// console.log(command);
     const commandName = file.split('.'[0])
 }
+
+// Function que carga los slashcommands
 
 client.slashcommands = new Discord.Collection();
 const slashcommandsFiles = fs.readdirSync("./slashcmd").filter(file => file.endsWith('.js'))
@@ -54,5 +58,14 @@ client.on('messageCreate', async message => {
         cmd.execute(client, message, args);
     }
 });
+client.on('ready', async => {
+    console.log(`Bot is ready as ${client.user.tag}`);
+    client.user.setStatus('idle');
+
+    // mensaje directo a el canal bot
+    
+    // client.channels.cache.get("834250914096611368").send({ content: `cerra el orto` })
+    
+})
 
 client.login(config.token);
