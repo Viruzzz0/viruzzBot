@@ -1,11 +1,11 @@
-const Discord = require("discord.js");
-const API ="https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc";
-
 const axios = require("axios");
+const API =
+  "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc";
+
 
 module.exports = {
   name: "bitcoin",
-  alias: ["b"],
+  alias: [],
 
   execute(client, message, args) {
     const anotherFunction = async (url_api) => {

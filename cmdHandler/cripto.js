@@ -1,6 +1,4 @@
-const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
-
+const { EmbedBuilder } = require("discord.js");
 const axios = require("axios");
 const API =
   "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc";
@@ -25,7 +23,7 @@ module.exports = {
 
         const criptoMoney = result.data;
 
-        // Filtra toda la api para retornar una cripto determinada 
+        // Filtra toda la api para retornar una cripto determinada
         const search = (query) => {
           return criptoMoney.filter((item) => {
             return item.id === query;
@@ -40,31 +38,41 @@ module.exports = {
 
         // Muestra un embed con todas las criptos pedidas
         // El "Intl.NumberFormat().format" solo le da un formato de los miles con punto
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setTitle("Popular Criptos")
-          .setColor("NAVY")
+          .setColor("Gold")
           .setURL("https://www.coingecko.com")
           .setDescription("Precios actuales")
-          .addField(
-            btc[0].name,
-            Intl.NumberFormat().format(btc[0].current_price)
-          )
-          .addField(
-            eth[0].name,
-            Intl.NumberFormat().format(eth[0].current_price)
-          )
-          .addField(
-            bnb[0].name,
-            Intl.NumberFormat().format(bnb[0].current_price)
-          )
-          .addField(
-            sol[0].name,
-            Intl.NumberFormat().format(sol[0].current_price)
-          )
-          .addField(
-            xmr[0].name,
-            Intl.NumberFormat().format(xmr[0].current_price)
-          )
+          .addFields([
+            {
+              name: btc[0].name,
+              value: Intl.NumberFormat().format(btc[0].current_price),
+            },
+          ])
+          .addFields([
+            {
+              name: eth[0].name,
+              value: Intl.NumberFormat().format(eth[0].current_price),
+            },
+          ])
+          .addFields([
+            {
+              name: bnb[0].name,
+              value: Intl.NumberFormat().format(bnb[0].current_price),
+            },
+          ])
+          .addFields([
+            {
+              name: sol[0].name,
+              value: Intl.NumberFormat().format(sol[0].current_price),
+            },
+          ])
+          .addFields([
+            {
+              name: xmr[0].name,
+              value: Intl.NumberFormat().format(xmr[0].current_price),
+            },
+          ])
           .setImage(
             "https://www.bitcoin.com.mx/content/images/2020/05/Criptomonedas_pago_empleo.png"
           )

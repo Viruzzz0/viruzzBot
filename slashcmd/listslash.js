@@ -1,23 +1,27 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
-const Discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
-    data: new SlashCommandBuilder()
+  data: new SlashCommandBuilder()
     .setName("listslash")
     .setDescription("Lista de comando del bot"),
 
-    async run(client, interaction){
+  async run(client, interaction) {
+    const embed = new EmbedBuilder()
+      .setTitle("Lista de slash commands")
+      .setColor("Gold")
+      .setDescription(
+        "`ping` \n `mybot` \n `count` \n `cripto` \n `bitcoin` \n `button` \n `avatar`"
+      )
+      .setFooter({
+        text: "Usar el slash /",
+      })
+      .setTimestamp();
 
-        const embed = new MessageEmbed()
-            .setTitle("Lista de slash commands")
-            .setColor('RANDOM')
-            .setDescription('`ping` \n `mybot` \n `count` \n `cripto` \n `bitcoin` \n `button` \n `avatar`')
-            .setFooter("Usar el slash /")
-            .setTimestamp()
-
-        interaction.reply({ 
-            embeds: [embed],
-        });
-    }
-}
+    console.log(embed);  
+    
+    interaction.reply({
+      embeds: [embed],
+    });
+  },
+};
