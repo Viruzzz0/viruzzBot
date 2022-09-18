@@ -1,29 +1,30 @@
-const fs = require('fs');
-const Discord = require('discord.js');
 const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-const { clientId, guild } = require('./config.json');
+const { Routes } = require('discord.js');
+const { token, clientId, guildId } = require('./config.json');
+
+const fs = require('node:fs');
+
 const commands = [];
-const slashcommandFiles = fs.readdirSync("./slashcmd").filter(file => file.endsWith('.js'))
+const commandFiles = fs.readdirSync('./slashcmd').filter(file => file.endsWith('.js'));
 
-for(const file of slashcommandFiles){
-    const slash = require(`./slashcmd/${file}`)
-    commands.push(slash.data.toJSON())
+for (const file of commandFiles) {
+	const command = require(`./slashcmd/${file}`);
+	commands.push(command.data.toJSON());
 }
 
-const rest = new REST({version: "9"}).setToken("ODM0MjQ5MTAxNDE0NzYwNDQ4.G9mc7M.NVTSCOAYROI1PuhWrWk3JO45OPCTVNb8l8GhFk");
+const rest = new REST({ version: '10' }).setToken(token);
 
-createSlash()
+(async () => {
+	try {
+		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
-async function createSlash(){
-    try {
-        await rest.put(
-            Routes.applicationCommands(clientId), {
-                body: commands
-            }
-        )
-        console.log("Slash created successfully");
-    } catch (error) {
-        console.error(error);
-    }
-}
+		const data = await rest.put(
+			Routes.applicationCommands(clientId),
+			{ body: commands },
+		);
+
+		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+	} catch (error) {
+		console.error(error);
+	}
+})();
