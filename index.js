@@ -72,10 +72,35 @@ client.on("messageCreate", async (message) => {
     cmd.execute(client, message, args);
   }
 });
+
+
+
 client.on("ready", (async) => {
   console.log(`Bot is ready as ${client.user.tag}`);
-  client.user.setStatus("idle");
+  client.user.setStatus("invisible");
+  // client.user.setActivity('lol', { type: Discord.ActivityType.Playing });
+  
+  // async function activityEstado (){
+  //   try {
+  //     await client.user.setPresence({
+  //       status: "idle",
+  //       activities: [
+  //         {
+  //           url: "www.twitch.tv/ponkicarry",
+  //           name: "www.twitch.tv/ponkicarry",
+  //           type: Discord.ActivityType.Watching
+  //         },
+  //       ],
+  //     });
+      
+  //   }catch(err) {
+  //     console.log(err);
+  //   }
+  // }
+  
+  // setInterval(activityEstado,3000)
 
+  
   // mensaje directo a el canal bot
 
   // client.channels.cache.get("834250914096611368").send({ content: `cerra el orto` })

@@ -1,17 +1,25 @@
+const { EmbedBuilder } = require('discord.js');
+
 module.exports = {
-  name: "cmd",
-  alias: [],
+  name: "comands",
+  alias: ['cmd'],
 
   execute(client, message, args) {
-    message.channel.send(`Lista de ccomandos:
-        ping
-        mybot
-        count
-        cripto
-        bitcoin
-        button
-        count
-        avatar
-        `);
+
+    const embed = new EmbedBuilder()
+      .setTitle(`Lista de Comandos Handler`)
+      .setColor("blue")
+      .addFields([
+        {
+          name: "`avatar`\n`bitcoin`\n`button`\n`count`\n`cripto`\n`lol`\n`mybot`\n`ping`\n`say`",
+          value: '\u200B'
+        }
+      ])
+      .setFooter({
+        text: "Usar el prefix -",
+      })
+      .setTimestamp()
+
+    message.channel.send({ embeds: [embed] });
   },
 };

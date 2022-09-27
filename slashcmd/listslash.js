@@ -9,18 +9,16 @@ module.exports = {
   async run(client, interaction) {
     const embed = new EmbedBuilder()
       .setTitle("Lista de slash commands")
-      .setColor("Gold")
+      .setColor("blue")
       .setDescription(
-        "`ping` \n `mybot` \n `count` \n `cripto` \n `bitcoin` \n `button` \n `avatar`"
+        "`ping` \n `mybot` \n `cat` \n `dog` \n `ping` \n `say` \n"
       )
       .setFooter({
         text: "Usar el slash /",
       })
       .setTimestamp();
-
-    console.log(embed);  
     
-    interaction.reply({
+    await interaction.reply({
       embeds: [embed],
     });
   },
