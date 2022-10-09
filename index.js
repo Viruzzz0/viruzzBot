@@ -77,7 +77,7 @@ client.on("messageCreate", async (message) => {
 
 client.on("ready", (async) => {
   console.log(`Bot is ready as ${client.user.tag}`);
-  client.user.setStatus("invisible");
+  // client.user.setStatus("invisible");
   // client.user.setActivity('lol', { type: Discord.ActivityType.Playing });
   
   // async function activityEstado (){
@@ -104,6 +104,23 @@ client.on("ready", (async) => {
   // mensaje directo a el canal bot
 
   // client.channels.cache.get("834250914096611368").send({ content: `cerra el orto` })
+});
+
+client.on("ready", async (async) => {
+  const axios = require("axios");
+
+  const uptime = await axios.get('https://decapi.me/twitch/uptime/ponkicarry');
+  let lol = 'ponkicarry is offline'
+
+  if(uptime.data !== lol){
+    console.log('es true');
+    client.user.setActivity('www.twitch.tv/ponkicarry', { type: Discord.ActivityType.Watching });
+
+  } else {
+    console.log('ya ta offline')
+    client.user.setStatus("invisible");
+
+  } 
 });
 
 client.login(config.token);
