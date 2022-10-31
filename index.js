@@ -14,6 +14,12 @@ const client = new Client({
 const fs = require("fs");
 const { log } = require("console");
 
+client.on("ready", async (async) => {
+  
+  client.user.setStatus("invisible");
+
+});
+
 // Functions que carga los comandos Handler
 
 client.commands = new Discord.Collection();
