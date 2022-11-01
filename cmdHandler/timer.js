@@ -1,6 +1,6 @@
 module.exports = {
-  name: "test",
-  alias: ["t"],
+  name: "timer",
+  alias: ["time"],
 
   async execute(client, message, args) {
     const arg = args.join("").split("");

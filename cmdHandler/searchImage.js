@@ -6,14 +6,14 @@ const {
   ButtonStyle,
 } = require("discord.js");
 
-const img1 = "https://assets.mofoprod.net/network/images/discord.width-250.jpg";
-const img2 =
-  "https://www.trecebits.com/wp-content/uploads/2020/12/Que-es-Discord.jpg";
-const img3 =
-  "https://phantom-marca.unidadeditorial.es/ebb126757255d08caf5fec8985cea583/resize/1320/f/jpg/assets/multimedia/imagenes/2021/05/03/16200681608378.jpg";
-const img4 = "https://discordjs.guide/meta-image.png";
-const img5 = "https://miro.medium.com/max/500/1*DhlEHM0sZs1DKEoBc40ldQ.png";
-const searchText = "name-img";
+// const img1 = "https://assets.mofoprod.net/network/images/discord.width-250.jpg";
+// const img2 =
+//   "https://www.trecebits.com/wp-content/uploads/2020/12/Que-es-Discord.jpg";
+// const img3 =
+//   "https://phantom-marca.unidadeditorial.es/ebb126757255d08caf5fec8985cea583/resize/1320/f/jpg/assets/multimedia/imagenes/2021/05/03/16200681608378.jpg";
+// const img4 = "https://discordjs.guide/meta-image.png";
+// const img5 = "https://miro.medium.com/max/500/1*DhlEHM0sZs1DKEoBc40ldQ.png";
+// const searchText = "name-img";
 
 module.exports = {
   name: "img",
@@ -26,24 +26,24 @@ module.exports = {
     let textImg = mensaje;
     console.log(textImg);
 
-    // const options = {
-    //   method: "GET",
-    //   url: "https://bing-image-search1.p.rapidapi.com/images/search",
-    //   params: { q: textImg, count: "5" },
-    //   headers: {
-    //     "X-RapidAPI-Key": "53351dee31msh305061050cf7042p17eaedjsnc91dc9d740c5",
-    //     "X-RapidAPI-Host": "bing-image-search1.p.rapidapi.com",
-    //   },
-    // };
+    const options = {
+      method: "GET",
+      url: "https://bing-image-search1.p.rapidapi.com/images/search",
+      params: { q: textImg, count: "5" },
+      headers: {
+        "X-RapidAPI-Key": "53351dee31msh305061050cf7042p17eaedjsnc91dc9d740c5",
+        "X-RapidAPI-Host": "bing-image-search1.p.rapidapi.com",
+      },
+    };
 
-    // const response = await axios(options);
+    const response = await axios(options);
 
-    // const img1 = response.data.value[0].contentUrl;
-    // const img2 = response.data.value[1].contentUrl;
-    // const img3 = response.data.value[2].contentUrl;
-    // const img4 = response.data.value[3].contentUrl;
-    // const img5 = response.data.value[4].contentUrl;
-    // const searchText = response.data.queryContext.originalQuery;
+    const img1 = response.data.value[0].contentUrl;
+    const img2 = response.data.value[1].contentUrl;
+    const img3 = response.data.value[2].contentUrl;
+    const img4 = response.data.value[3].contentUrl;
+    const img5 = response.data.value[4].contentUrl;
+    const searchText = response.data.queryContext.originalQuery;
 
     const embed = new EmbedBuilder()
       .setTitle(searchText)
