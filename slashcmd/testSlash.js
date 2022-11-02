@@ -36,6 +36,7 @@ module.exports = {
     const num = interaction.options.getNumber("numero");
     const toTime = interaction.options.getString("to");
     let numReturn;
+    let formulaText;
 
     const milgToSec = (tim) => tim / 1000;
     const milgToMin = (tim) => tim / 60000;
@@ -66,27 +67,63 @@ module.exports = {
     console.log(toTime);
 
     if (time == "millisecond") {
-      if (toTime == "second") numReturn = milgToSec(num);
-      else if (toTime == "minutes") numReturn = milgToMin(num);
-      else if (toTime == "hours") numReturn = milgToHr(num);
+      if (toTime == "second") {
+        formulaText = "Value divided by 1000";
+        numReturn = milgToSec(num);
+      }
+      else if (toTime == "minutes") {
+        formulaText = "Value divided by 60000";
+        numReturn = milgToMin(num);
+      }
+      else if (toTime == "hours") {
+        formulaText = "Value divided by 3600000";
+        numReturn = milgToHr(num);
+      }
       else numReturn = num
     }
     else if (time == "second") {
-      if (toTime == "millisecond") numReturn = secToMilg(num);
-      else if (toTime == "minutes") numReturn = secToMin(num);
-      else if (toTime == "hours") numReturn = secToHr(num);
+      if (toTime == "millisecond") {
+        formulaText = "Value multiplied by 1000";
+        numReturn = secToMilg(num);
+      }
+      else if (toTime == "minutes") {
+        formulaText = "Value divided by 60";
+        numReturn = secToMin(num);
+      }
+      else if (toTime == "hours") {
+        formulaText = "Value divided by 3600";
+        numReturn = secToHr(num);
+      }
       else numReturn = num
     }
     else if (time == "minutes") {
-      if (toTime == "millisecond") numReturn = minToMilg(num);
-      else if (toTime == "second") numReturn = minToSec(num);
-      else if (toTime == "hours") numReturn = minToHr(num);
+      if (toTime == "millisecond") {
+        formulaText = "Value multiplied by 60000";
+        numReturn = minToMilg(num);
+      }
+      else if (toTime == "second") {
+        formulaText = "Value multiplied by 60";
+        numReturn = minToSec(num);
+      }
+      else if (toTime == "hours") {
+        formulaText = "Value divided by 60";
+        numReturn = minToHr(num);
+      }
       else numReturn = num
     }
     else if (time == "hours") {
-      if (toTime == "millisecond") numReturn = hrToMilg(num);
-      else if (toTime == "second") numReturn = hrToSec(num);
-      else if (toTime == "minutes") numReturn = hrToMin(num);
+      if (toTime == "millisecond") {
+        formulaText = "Value multiplied by 3600000";
+        numReturn = hrToMilg(num);
+      }
+      else if (toTime == "second") {
+        formulaText = "Value multiplied by 3600";
+        numReturn = hrToSec(num);
+      }
+      else if (toTime == "minutes") {
+        formulaText = "Value multiplied by 60";
+        numReturn = hrToMin(num);
+      }
       else numReturn = num
     }
 
@@ -103,9 +140,9 @@ module.exports = {
       //   { name: `${time}`, value: `${num}`},
       //   { name: `${toTime}`, value: `${numReturn}`}
       // ])
-      // .setFooter({
-      //   text: "valor dividido entre 60",
-      // });
+      .setFooter({
+        text: `${formulaText}`,
+      });
       
     await interaction.reply({
       embeds: [embed],
