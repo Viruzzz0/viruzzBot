@@ -20,17 +20,27 @@ client.on('interactionCreate', async interaction => {
 });
 */
 
-
-
 // --------------------------------
-// Ideas para el bot
+
 /*
-
-- alarma
-
-- medir actividad en discord de usuario
-
-- convetor de tiempo
+? Ideas para el bot
 
 
+* - alarma
+*
+! - medir actividad en discord de usuario 
+*
+* - convetor de tiempo (complete)
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
+*
 */
