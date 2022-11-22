@@ -1,5 +1,5 @@
 const axios = require("axios");
-const classImage = require("../fetch/bingImg");
+const SearchImage = require("../fetch/bingImg").SearchImage;
 const {
   EmbedBuilder,
   ButtonBuilder,
@@ -24,7 +24,7 @@ module.exports = {
     const msg = args.join(" ");
     if (!msg) return message.channel.send("Escribe algo");
 
-    const getImageObj = new classImage.SearchImage({ textImg: msg, count: 5 });
+    const getImageObj = new SearchImage({ textImg: msg, count: 5 });
     const getImage = await getImageObj.petition();
 
     const embed = new EmbedBuilder()
