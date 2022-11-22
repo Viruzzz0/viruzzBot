@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
 const config = require("./config.json");
-// const intents = new Discord.Intents(131071);
-// const client = new Discord.Client({ intents });
 const { Client, GatewayIntentBits } = require("discord.js");
 const client = new Client({
   intents: [
@@ -15,9 +13,7 @@ const fs = require("fs");
 const { log } = require("console");
 
 client.on("ready", async (async) => {
-  
   client.user.setStatus("invisible");
-
 });
 
 // Functions que carga los comandos Handler
@@ -79,13 +75,11 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-
-
 client.on("ready", (async) => {
   console.log(`Bot is ready as ${client.user.tag}`);
   // client.user.setStatus("invisible");
   // client.user.setActivity('lol', { type: Discord.ActivityType.Playing });
-  
+
   // async function activityEstado (){
   //   try {
   //     await client.user.setPresence({
@@ -98,15 +92,14 @@ client.on("ready", (async) => {
   //         },
   //       ],
   //     });
-      
+
   //   }catch(err) {
   //     console.log(err);
   //   }
   // }
-  
+
   // setInterval(activityEstado,3000)
 
-  
   // mensaje directo a el canal bot
 
   // client.channels.cache.get("834250914096611368").send({ content: `cerra el orto` })
@@ -115,18 +108,18 @@ client.on("ready", (async) => {
 client.on("ready", async (async) => {
   const axios = require("axios");
 
-  const uptime = await axios.get('https://decapi.me/twitch/uptime/ponkicarry');
-  let lol = 'ponkicarry is offline'
+  const uptime = await axios.get("https://decapi.me/twitch/uptime/ponkicarry");
+  let lol = "ponkicarry is offline";
 
-  if(uptime.data !== lol){
-    console.log('es true');
-    client.user.setActivity('www.twitch.tv/ponkicarry', { type: Discord.ActivityType.Watching });
-
+  if (uptime.data !== lol) {
+    console.log("es true");
+    client.user.setActivity("www.twitch.tv/ponkicarry", {
+      type: Discord.ActivityType.Watching,
+    });
   } else {
-    console.log('ya ta offline')
+    console.log("ya ta offline");
     client.user.setStatus("invisible");
-
-  } 
+  }
 });
 
 client.login(config.token);

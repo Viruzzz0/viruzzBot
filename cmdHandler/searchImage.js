@@ -1,4 +1,5 @@
 const axios = require("axios");
+const classImage = require("../fetch/bingImg");
 const {
   EmbedBuilder,
   ButtonBuilder,
@@ -20,35 +21,16 @@ module.exports = {
   alias: [],
 
   async execute(client, message, args) {
-    const mensaje = args.join(" ");
-    if (!mensaje) return message.channel.send("Escribe algo");
+    const msg = args.join(" ");
+    if (!msg) return message.channel.send("Escribe algo");
 
-    let textImg = mensaje;
-    console.log(textImg);
-
-    const options = {
-      method: "GET",
-      url: "https://bing-image-search1.p.rapidapi.com/images/search",
-      params: { q: textImg, count: "5" },
-      headers: {
-        "X-RapidAPI-Key": "53351dee31msh305061050cf7042p17eaedjsnc91dc9d740c5",
-        "X-RapidAPI-Host": "bing-image-search1.p.rapidapi.com",
-      },
-    };
-
-    const response = await axios(options);
-
-    const img1 = response.data.value[0].contentUrl;
-    const img2 = response.data.value[1].contentUrl;
-    const img3 = response.data.value[2].contentUrl;
-    const img4 = response.data.value[3].contentUrl;
-    const img5 = response.data.value[4].contentUrl;
-    const searchText = response.data.queryContext.originalQuery;
+    const getImageObj = new classImage.SearchImage({ textImg: msg, count: 5 });
+    const getImage = await getImageObj.petition();
 
     const embed = new EmbedBuilder()
-      .setTitle(searchText)
+      .setTitle(getImage.nameImg)
       .setColor("Random")
-      .setImage(img1)
+      .setImage(getImage.images[0])
       .setFooter({
         text: "Image 1",
       })
@@ -79,7 +61,7 @@ module.exports = {
     const ifilter = (i) => i.user.id === message.author.id;
     const collector = m.createMessageComponentCollector({
       filter: ifilter,
-      time: 60000,
+      time: 120000,
     });
 
     collector.on("collect", async (i) => {
@@ -87,7 +69,7 @@ module.exports = {
       // ! PRIMERA IMAGEN
       if (i.customId === "goImg2") {
         await i.deferUpdate();
-        embed.setImage(img2);
+        embed.setImage(getImage.images[1]);
         embed.setFooter({
           text: "Image 2",
         });
@@ -104,7 +86,7 @@ module.exports = {
       // ! SEGUNDA IMAGEN
       if (i.customId === "returnImg1") {
         await i.deferUpdate();
-        embed.setImage(img1);
+        embed.setImage(getImage.images[0]);
         embed.setFooter({
           text: "Image 1",
         });
@@ -116,7 +98,7 @@ module.exports = {
         });
       } else if (i.customId === "goImg3") {
         await i.deferUpdate();
-        embed.setImage(img3);
+        embed.setImage(getImage.images[2]);
         embed.setFooter({
           text: "Image 3",
         });
@@ -133,7 +115,7 @@ module.exports = {
 
       if (i.customId === "returnImg2") {
         await i.deferUpdate();
-        embed.setImage(img2);
+        embed.setImage(getImage.images[1]);
         embed.setFooter({
           text: "Image 2",
         });
@@ -146,7 +128,7 @@ module.exports = {
         });
       } else if (i.customId === "goImg4") {
         await i.deferUpdate();
-        embed.setImage(img4);
+        embed.setImage(getImage.images[3]);
         embed.setFooter({
           text: "Image 4",
         });
@@ -163,7 +145,7 @@ module.exports = {
 
       if (i.customId === "returnImg3") {
         await i.deferUpdate();
-        embed.setImage(img3);
+        embed.setImage(getImage.images[2]);
         embed.setFooter({
           text: "Image 3",
         });
@@ -176,7 +158,7 @@ module.exports = {
         });
       } else if (i.customId === "goImg5") {
         await i.deferUpdate();
-        embed.setImage(img5);
+        embed.setImage(getImage.images[4]);
         embed.setFooter({
           text: "Image 5",
         });
@@ -192,7 +174,7 @@ module.exports = {
 
       if (i.customId === "returnImg4") {
         await i.deferUpdate();
-        embed.setImage(img4);
+        embed.setImage(getImage.images[3]);
         embed.setFooter({
           text: "Image 4",
         });
@@ -205,7 +187,7 @@ module.exports = {
         });
       }
     });
-// TODO fix this
+    // TODO fix this
     collector.on("end", (collected) =>
       console.log(`Collected ${collected.size} items`)
     );
