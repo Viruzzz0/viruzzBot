@@ -54,13 +54,12 @@ module.exports = {
       actionRow: row,
       images: [img1, img2, img3, img4, img5],
     });
-    const repi = await toggleImage.action(num)
-    
+    const repi = await toggleImage.action(num);
 
+    // ! Evento al accionar un button
     collector.on("collect", async (i) => {
-      toggleImage.collector = i
-      await repi.countNum()
-
+      toggleImage.collector = i;
+      await repi.on();
     });
 
     collector.on("end", (collected) =>

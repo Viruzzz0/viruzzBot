@@ -8,7 +8,7 @@ class ToggleEmbed {
 
   async action(count) {
     return {
-      countNum: async () => {
+      on: async () => {
         console.log(count);
         if (this.collector.customId === "next") {
           if (count >= this.images.length - 1) --count;
