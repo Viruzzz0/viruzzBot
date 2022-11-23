@@ -32,7 +32,6 @@ module.exports = {
       "https://phantom-marca.unidadeditorial.es/ebb126757255d08caf5fec8985cea583/resize/1320/f/jpg/assets/multimedia/imagenes/2021/05/03/16200681608378.jpg";
     const img4 = "https://discordjs.guide/meta-image.png";
     const img5 = "https://miro.medium.com/max/500/1*DhlEHM0sZs1DKEoBc40ldQ.png";
-    const searchText = "name-img";
 
     const msg = interaction.options.getString("text");
     // const getImageObj = new SearchImage({ textImg: msg, count: 5 });
@@ -41,12 +40,10 @@ module.exports = {
       .setTitle("test")
       // .setTitle(getImage.nameImg)
       .setColor("Random")
-      .setImage(
-        "https://media.npr.org/assets/img/2021/08/11/gettyimages-1279899488_wide-f3860ceb0ef19643c335cb34df3fa1de166e2761-s1100-c50.jpg"
-      )
+      .setImage(img1)
       // .setImage(getImage.images[0])
       .setFooter({
-        text: "Image 1",
+        text: "Image 0",
       })
       .setTimestamp();
     const buttonNext = new ButtonBuilder()
@@ -71,74 +68,47 @@ module.exports = {
       time: 120000,
     });
 
+    let count = 0;
+
     collector.on("collect", async (i) => {
       console.log("lol collect");
 
-      async function toggleImage({
-        collector,
-        next,
-        preview,
-        imganNext,
-        imganPreview,
-      }) {
-        if (collector.customId === next) {
+      async function toggleImage({ collector, images }) {
+        console.log(count);
+        if (collector.customId === "next") {
+          if (count >= images.length - 1)--count;
+          
+          ++count;
           await collector.deferUpdate();
-          embed.setImage(imganNext);
+          embed.setImage(images[count]);
           embed.setFooter({
-            text: "Image 1",
+            text: `Image ${count}`,
           });
           collector.editReply({
             embeds: [embed],
             components: [row],
           });
-        } else if (preview) {
+        } else if (collector.customId === "preview") {
+          if (count <= 0) ++count;
+
+          --count;
           await collector.deferUpdate();
-          embed.setImage(imganPreview);
+          embed.setImage(images[count]);
           embed.setFooter({
-            text: "Image 2",
+            text: `Image ${count}`,
           });
           collector.editReply({
             embeds: [embed],
             components: [row],
           });
         }
+        console.log(count);
       }
-      
 
       await toggleImage({
         collector: i,
-        next: 'next',
-        preview: 'preview',
-        imganNext: img2,
-        imganPreview: img1,
-      })
-
-      // if (i.customId === "returnImg1") {
-      //   await i.deferUpdate();
-      //   embed.setImage(getImage.images[0]);
-      //   embed.setFooter({
-      //     text: "Image 1",
-      //   });
-      //   buttonGo.setCustomId("goImg2");
-
-      //   i.editReply({
-      //     embeds: [embed],
-      //     components: [row],
-      //   });
-      // } else if (i.customId === "goImg3") {
-      //   await i.deferUpdate();
-      //   embed.setImage(getImage.images[2]);
-      //   embed.setFooter({
-      //     text: "Image 3",
-      //   });
-      //   buttonReturn.setCustomId("returnImg2");
-      //   buttonGo.setCustomId("goImg4");
-
-      //   i.editReply({
-      //     embeds: [embed],
-      //     components: [row],
-      //   });
-      // }
+        images: [img1, img2, img3, img4, img5],
+      });
     });
     collector.on("end", (collected) =>
       console.log(`Collected ${collected.size} items`)
