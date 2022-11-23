@@ -65,7 +65,7 @@ module.exports = {
       embeds: [embed],
       // ephemeral: true,
     });
-    const ifilter = (i) => i.user.id === message.author.id;
+    const ifilter = (i) => i.user.id === interaction.user.id;
     const collector = message.createMessageComponentCollector({
       filter: ifilter,
       time: 120000,
@@ -74,12 +74,44 @@ module.exports = {
     collector.on("collect", async (i) => {
       console.log("lol collect");
 
-      // async function toggleImage(collector, next, preview) {
-      //   if (collector.customId === next) {
-      //     await i.deferUpdate();
+      async function toggleImage({
+        collector,
+        next,
+        preview,
+        imganNext,
+        imganPreview,
+      }) {
+        if (collector.customId === next) {
+          await collector.deferUpdate();
+          embed.setImage(imganNext);
+          embed.setFooter({
+            text: "Image 1",
+          });
+          collector.editReply({
+            embeds: [embed],
+            components: [row],
+          });
+        } else if (preview) {
+          await collector.deferUpdate();
+          embed.setImage(imganPreview);
+          embed.setFooter({
+            text: "Image 2",
+          });
+          collector.editReply({
+            embeds: [embed],
+            components: [row],
+          });
+        }
+      }
+      
 
-      //   }
-      // }
+      await toggleImage({
+        collector: i,
+        next: 'next',
+        preview: 'preview',
+        imganNext: img2,
+        imganPreview: img1,
+      })
 
       // if (i.customId === "returnImg1") {
       //   await i.deferUpdate();
@@ -107,7 +139,6 @@ module.exports = {
       //     components: [row],
       //   });
       // }
-
     });
     collector.on("end", (collected) =>
       console.log(`Collected ${collected.size} items`)
