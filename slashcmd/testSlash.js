@@ -1,15 +1,34 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const embedMesagge = require("../embeds/embed-basic");
 
+const es = { name: "España GMT+1", value: "GMT+1" };
+const ar = { name: "Argentina GMT-3", value: "GMT-3" };
+const ch = { name: "Chile GMT-3", value: "GMT-3" };
+const mx = { name: "Mexico GMT-6", value: "GMT-6" };
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("test")
     .setDescription("#############")
     .addStringOption((option) =>
-      option.setName("value").setDescription("#######").setRequired(true)
+      option
+        .setName("country")
+        .setDescription("Choose the format of your number")
+        .setRequired(true)
+        .addChoices(es, ar, ch, mx)
     )
-    .addMentionableOption((option) =>
-      option.setName("value2").setDescription("#######").setRequired(true)
+    .addStringOption((option) =>
+      option
+        .setName("time")
+        .setDescription("Enter a number")
+        .setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("to")
+        .setDescription("Choose the format you want to convert it to")
+        .setRequired(true)
+        .addChoices(es, ar, ch, mx)
     ),
 
   async run(client, interaction) {
