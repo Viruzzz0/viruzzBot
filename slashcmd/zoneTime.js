@@ -37,24 +37,32 @@ const cos = {
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("test")
-    .setDescription("#############")
-    .addStringOption((option) =>
-      option
-        .setName("country")
-        .setDescription("Choose the format of your number")
-        .setRequired(true)
-        .addChoices(es, ar, ch, mx, jp, eeuu, eeuuAn, cos)
-    )
-    .addStringOption((option) =>
-      option.setName("time").setDescription("Enter a number").setRequired(true)
-    )
-    .addStringOption((option) =>
-      option
-        .setName("to")
-        .setDescription("Choose the format you want to convert it to")
-        .setRequired(true)
-        .addChoices(es, ar, ch, mx, jp, eeuu, eeuuAn, cos)
+    .setName("zone")
+    .setDescription("convert time to a different time zone")
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("time")
+        .setDescription("convert time to a different time zone")
+        .addStringOption((option) =>
+          option
+            .setName("country")
+            .setDescription("Choose a time zone")
+            .setRequired(true)
+            .addChoices(es, ar, ch, mx, jp, eeuu, eeuuAn, cos)
+        )
+        .addStringOption((option) =>
+          option
+            .setName("time")
+            .setDescription("Enter a number")
+            .setRequired(true)
+        )
+        .addStringOption((option) =>
+          option
+            .setName("to")
+            .setDescription("Choose the zone you want to convert to")
+            .setRequired(true)
+            .addChoices(es, ar, ch, mx, jp, eeuu, eeuuAn, cos)
+        )
     ),
 
   async run(client, interaction) {
@@ -87,17 +95,17 @@ module.exports = {
     await axios
       .get(convert)
       .then(async (res) => {
-        console.log(res.data);
+        const data = res.data
         const convertPretty = (str) => {
           const dataArray = str.split(" ");
           const date = dataArray[0].slice(5);
           const time = dataArray[1].slice(0, 5);
           return `${date} ${time}`;
         };
-        const selectedTime = res.data.base_location.datetime;
-        const convertedTime = res.data.target_location.datetime;
-        const timezoneLocation = res.data.base_location.requested_location;
-        const toTimezoneLocation = res.data.target_location.requested_location;
+        const selectedTime = data.base_location.datetime;
+        const convertedTime = data.target_location.datetime;
+        const timezoneLocation = data.base_location.requested_location;
+        const toTimezoneLocation = data.target_location.requested_location;
 
         function dateDiffer(time, time2) {
           const date1 = new Date(time);
