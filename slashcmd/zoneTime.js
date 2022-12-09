@@ -95,7 +95,8 @@ module.exports = {
     await axios
       .get(convert)
       .then(async (res) => {
-        const data = res.data
+        const data = res.data;
+        console.log(data);
         const convertPretty = (str) => {
           const dataArray = str.split(" ");
           const date = dataArray[0].slice(5);
@@ -113,7 +114,6 @@ module.exports = {
           const day = date1.getDay();
           const day2 = date2.getDay();
           const milgToHr = (tim) => tim / 3600000;
-
           const converToMili = (date) => {
             const hours = date.getHours();
             const min = date.getMinutes();
@@ -123,18 +123,16 @@ module.exports = {
             return totalMili;
           };
 
+          const differ = converToMili(date1) - converToMili(date2);
+          const differInHr = milgToHr(differ);
+
           if (day != day2) {
-            console.log("es distindo");
             const removeZero = (num) => (num < 0 ? num * -1 : num);
-            const differ = converToMili(date1) - converToMili(date2);
-            const differInHr = milgToHr(differ);
             const result = removeZero(differInHr) - 24;
             return removeZero(result);
           }
 
-          const differ = converToMili(date1) - converToMili(date2);
-          const result = milgToHr(differ);
-          return result;
+          return differInHr;
         }
 
         const embed = new EmbedBuilder()
