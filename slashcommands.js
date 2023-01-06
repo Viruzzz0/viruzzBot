@@ -5,10 +5,10 @@ const { token, clientId, guildId } = require('./config.json');
 const fs = require('node:fs');
 
 const commands = [];
-const commandFiles = fs.readdirSync('./slashcmd').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./src/commands/slash').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-	const command = require(`./slashcmd/${file}`);
+	const command = require(`./src/commands/slash/${file}`);
 	commands.push(command.data.toJSON());
 }
 

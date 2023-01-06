@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
+const { timePretty } = require("../../tools/timePretty");
+const { dateDiffer } = require("../../tools/dateDiffer");
 const axios = require("axios");
 
 const es = {
@@ -95,61 +97,26 @@ module.exports = {
     await axios
       .get(convert)
       .then(async (res) => {
-        const data = res.data;
-        console.log(data);
-        const convertPretty = (str) => {
-          const dataArray = str.split(" ");
-          const date = dataArray[0].slice(5);
-          const time = dataArray[1].slice(0, 5);
-          return `${date} ${time}`;
-        };
-        const selectedTime = data.base_location.datetime;
-        const convertedTime = data.target_location.datetime;
-        const timezoneLocation = data.base_location.requested_location;
-        const toTimezoneLocation = data.target_location.requested_location;
-
-        function dateDiffer(time, time2) {
-          const date1 = new Date(time);
-          const date2 = new Date(time2);
-          const day = date1.getDay();
-          const day2 = date2.getDay();
-          const milgToHr = (tim) => tim / 3600000;
-          const converToMili = (date) => {
-            const hours = date.getHours();
-            const min = date.getMinutes();
-            const hrToMilg = (tim) => tim * 3600000;
-            const minToMilg = (tim) => tim * 60000;
-            const totalMili = hrToMilg(hours) + minToMilg(min);
-            return totalMili;
-          };
-
-          const differ = converToMili(date1) - converToMili(date2);
-          const differInHr = milgToHr(differ);
-
-          if (day != day2) {
-            const removeZero = (num) => (num < 0 ? num * -1 : num);
-            const result = removeZero(differInHr) - 24;
-            return removeZero(result);
-          }
-
-          return differInHr;
-        }
-
+        const {data} = res;
+        const selecTime = data.base_location;
+        const converTime = data.target_location;
+        
+       
         const embed = new EmbedBuilder()
           .setTitle(`**Zone time**`)
           .setColor("blue")
           .setFields([
             {
-              name: `🌍 **${timezoneLocation}**`,
-              value: `⏲ **${convertPretty(selectedTime)}**\nㅤ`,
+              name: `🌍 **${selecTime.requested_location}**`,
+              value: `⏲ **${timePretty(selecTime.datetime)}**\nㅤ`,
             },
             {
-              name: `🌍 **${toTimezoneLocation}**`,
-              value: `⏲ **${convertPretty(convertedTime)}**`,
+              name: `🌍 **${converTime.requested_location}**`,
+              value: `⏲ **${timePretty(converTime.datetime)}**`,
             },
           ])
           .setFooter({
-            text: `time difference: ${dateDiffer(selectedTime, convertedTime)}`,
+            text: `time difference: ${dateDiffer(selecTime.datetime, converTime.datetime)}`,
           });
 
         // Enviar mensaje

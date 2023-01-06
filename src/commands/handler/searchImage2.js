@@ -1,5 +1,5 @@
-const SearchImage = require("../fetch/bingImg").SearchImage;
-const ToggleEmbed = require("../tools/toggleEmbed").ToggleEmbed;
+const SearchImage = require("../../servers/bingImg").SearchImage;
+const ToggleEmbed = require("../../tools/toggleEmbed").ToggleEmbed;
 const {
   EmbedBuilder,
   ButtonBuilder,

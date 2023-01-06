@@ -11,7 +11,13 @@ const client = new Client({
 });
 const fs = require("fs");
 const { log } = require("console");
-
+const logCommand = (i) => {
+  console.log({
+    user: i.author.username,
+    content: i.content,
+    id: i.author.id,
+  });
+};
 client.on("ready", async (async) => {
   client.user.setStatus("invisible");
 });
@@ -20,11 +26,11 @@ client.on("ready", async (async) => {
 
 client.commands = new Discord.Collection();
 const commandFiles = fs
-  .readdirSync("./cmdHandler")
+  .readdirSync("./src/commands/handler")
   .filter((file) => file.endsWith(".js"));
 
 for (const file of commandFiles) {
-  const command = require(`./cmdHandler/${file}`);
+  const command = require(`./src/commands/handler/${file}`);
   client.commands.set(command.name, command);
   // console.log(command);
   const commandName = file.split("."[0]);
@@ -34,11 +40,11 @@ for (const file of commandFiles) {
 
 client.slashcommands = new Discord.Collection();
 const slashcommandsFiles = fs
-  .readdirSync("./slashcmd")
+  .readdirSync("./src/commands/slash")
   .filter((file) => file.endsWith(".js"));
 
 for (const file of slashcommandsFiles) {
-  const slash = require(`./slashcmd/${file}`);
+  const slash = require(`./src/commands/slash/${file}`);
   // console.log(`Slash command - ${file} cargado.`)
   client.slashcommands.set(slash.data.name, slash);
 }
@@ -55,6 +61,11 @@ client.on("interactionCreate", async (interaction) => {
   } catch (err) {
     console.error(err);
   }
+  console.log({
+    user: interaction.user.username,
+    command: interaction.commandName,
+    id: interaction.user.id,
+  });
 });
 
 client.on("messageCreate", async (message) => {
@@ -73,6 +84,7 @@ client.on("messageCreate", async (message) => {
   if (cmd) {
     cmd.execute(client, message, args);
   }
+  logCommand(message);
 });
 
 client.on("ready", (async) => {
@@ -104,6 +116,12 @@ client.on("ready", (async) => {
 
   // client.channels.cache.get("834250914096611368").send({ content: `cerra el orto` })
 });
+client.on("message", (message) => {
+  if (message.channel.type === "dm") {
+    // put your code here
+    console.log(message.content);
+  }
+});
 
 client.on("ready", async (async) => {
   const axios = require("axios");
@@ -118,7 +136,7 @@ client.on("ready", async (async) => {
     });
   } else {
     console.log("ya ta offline");
-    client.user.setStatus("invisible");
+    // client.user.setStatus("invisible");
   }
 });
 
