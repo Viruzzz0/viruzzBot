@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
 const config = require("./config.json");
+const fs = require("fs");
+const { log } = require("console");
 const { Client, GatewayIntentBits } = require("discord.js");
 const client = new Client({
   intents: [
@@ -9,8 +11,6 @@ const client = new Client({
     GatewayIntentBits.GuildMembers,
   ],
 });
-const fs = require("fs");
-const { log } = require("console");
 const logCommand = (i) => {
   console.log({
     user: i.author.username,
@@ -18,11 +18,12 @@ const logCommand = (i) => {
     id: i.author.id,
   });
 };
+
 client.on("ready", async (async) => {
   client.user.setStatus("invisible");
 });
 
-// Functions que carga los comandos Handler
+// !Functions que carga los comandos Handler
 
 client.commands = new Discord.Collection();
 const commandFiles = fs
@@ -36,7 +37,26 @@ for (const file of commandFiles) {
   const commandName = file.split("."[0]);
 }
 
-// Function que carga los slashcommands
+client.on("messageCreate", async (message) => {
+  let prefix = "-";
+
+  if (!message.content.startsWith(prefix)) return;
+  if (message.author.bot) return;
+
+  const usuario = message.mentions.members.first() || message.member;
+  const args = message.content.slice(prefix.length).trim().split(/ +/g);
+  const command = args.shift().toLowerCase();
+
+  let cmd = client.commands.find(
+    (c) => c.name === command || (c.alias && c.alias.includes(command))
+  );
+  if (cmd) {
+    cmd.execute(client, message, args);
+  }
+  logCommand(message);
+});
+
+// !Function que carga los slashcommands
 
 client.slashcommands = new Discord.Collection();
 const slashcommandsFiles = fs
@@ -68,75 +88,17 @@ client.on("interactionCreate", async (interaction) => {
   });
 });
 
-client.on("messageCreate", async (message) => {
-  let prefix = "-";
-
-  if (!message.content.startsWith(prefix)) return;
-  if (message.author.bot) return;
-
-  const usuario = message.mentions.members.first() || message.member;
-  const args = message.content.slice(prefix.length).trim().split(/ +/g);
-  const command = args.shift().toLowerCase();
-
-  let cmd = client.commands.find(
-    (c) => c.name === command || (c.alias && c.alias.includes(command))
-  );
-  if (cmd) {
-    cmd.execute(client, message, args);
-  }
-  logCommand(message);
-});
+// ? bot ready
 
 client.on("ready", (async) => {
   console.log(`Bot is ready as ${client.user.tag}`);
-  // client.user.setStatus("invisible");
-  // client.user.setActivity('lol', { type: Discord.ActivityType.Playing });
-
-  // async function activityEstado (){
-  //   try {
-  //     await client.user.setPresence({
-  //       status: "idle",
-  //       activities: [
-  //         {
-  //           url: "www.twitch.tv/ponkicarry",
-  //           name: "www.twitch.tv/ponkicarry",
-  //           type: Discord.ActivityType.Watching
-  //         },
-  //       ],
-  //     });
-
-  //   }catch(err) {
-  //     console.log(err);
-  //   }
-  // }
-
-  // setInterval(activityEstado,3000)
-
   // mensaje directo a el canal bot
-
   // client.channels.cache.get("834250914096611368").send({ content: `cerra el orto` })
 });
 client.on("message", (message) => {
   if (message.channel.type === "dm") {
     // put your code here
     console.log(message.content);
-  }
-});
-
-client.on("ready", async (async) => {
-  const axios = require("axios");
-
-  const uptime = await axios.get("https://decapi.me/twitch/uptime/ponkicarry");
-  let lol = "ponkicarry is offline";
-
-  if (uptime.data !== lol) {
-    console.log("es true");
-    client.user.setActivity("www.twitch.tv/ponkicarry", {
-      type: Discord.ActivityType.Watching,
-    });
-  } else {
-    console.log("ya ta offline");
-    // client.user.setStatus("invisible");
   }
 });
 

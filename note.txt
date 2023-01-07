@@ -64,3 +64,23 @@ client.on('interactionCreate', async interaction => {
 //     });
 //   },
 // };
+
+
+// NOTIFICAR CUANDO ESTA EN DIRECTO DE TWITCH
+
+client.on("ready", async (async) => {
+//   const axios = require("axios");
+
+//   const uptime = await axios.get("https://decapi.me/twitch/uptime/ponkicarry");
+//   let lol = "ponkicarry is offline";
+
+//   if (uptime.data !== lol) {
+//     console.log("es true");
+//     client.user.setActivity("www.twitch.tv/ponkicarry", {
+//       type: Discord.ActivityType.Watching,
+//     });
+//   } else {
+//     console.log("ya ta offline");
+//     // client.user.setStatus("invisible");
+//   }
+// });
