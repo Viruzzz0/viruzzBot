@@ -2,40 +2,8 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const { timePretty } = require("../../tools/timePretty");
 const { dateDiffer } = require("../../tools/dateDiffer");
+const { choices } = require("../../data/choicesTimeZone");
 const axios = require("axios");
-
-const es = {
-  name: "España, Madrid GMT+1",
-  value: "España, Madrid",
-};
-const ar = {
-  name: "Argentina, Buenos Aires GMT-3",
-  value: "Argentina, Buenos Aires",
-};
-const ch = {
-  name: "Chile, Santiago GMT-3",
-  value: "Chile, Santiago",
-};
-const mx = {
-  name: "Mexico, Ciudad de México GMT-6",
-  value: "Mexico, Ciudad de México",
-};
-const eeuu = {
-  name: "United States, New York GMT-5",
-  value: "United States, New York",
-};
-const eeuuAn = {
-  name: "United States, Los Angeles GMT-8",
-  value: "United States, Los Angeles",
-};
-const jp = {
-  name: "Japon, Tokyo GMT+9",
-  value: "Japon, Tokyo",
-};
-const cos = {
-  name: "South Korea, Seoul GMT+9",
-  value: "South Korea, Seoul",
-};
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -50,7 +18,16 @@ module.exports = {
             .setName("country")
             .setDescription("Choose a time zone")
             .setRequired(true)
-            .addChoices(es, ar, ch, mx, jp, eeuu, eeuuAn, cos)
+            .addChoices(
+              choices.es,
+              choices.ar,
+              choices.ch,
+              choices.mx,
+              choices.jp,
+              choices.eeuu,
+              choices.eeuuAn,
+              choices.cos
+            )
         )
         .addStringOption((option) =>
           option
@@ -63,7 +40,16 @@ module.exports = {
             .setName("to")
             .setDescription("Choose the zone you want to convert to")
             .setRequired(true)
-            .addChoices(es, ar, ch, mx, jp, eeuu, eeuuAn, cos)
+            .addChoices(
+              choices.es,
+              choices.ar,
+              choices.ch,
+              choices.mx,
+              choices.jp,
+              choices.eeuu,
+              choices.eeuuAn,
+              choices.cos
+            )
         )
     ),
 
@@ -88,8 +74,11 @@ module.exports = {
       }
       return item;
     };
-    const monthDayZero = [month, day].map(addZero);
-    const timeWatch = time.split(":").map(addZero);
+
+    const [monthDayZero, timeWatch] = [
+      [month, day].map(addZero),
+      time.split(":").map(addZero),
+    ];
     const data = `${year}-${monthDayZero[0]}-${monthDayZero[1]} ${timeWatch[0]}:${timeWatch[1]}:00`;
 
     const convert = `https://timezone.abstractapi.com/v1/convert_time?api_key=ada46d41f7de474bb43005f0bc601131&base_location=${country}&base_datetime=${data}&target_location=${to}`;
@@ -97,11 +86,10 @@ module.exports = {
     await axios
       .get(convert)
       .then(async (res) => {
-        const {data} = res;
+        const { data } = res;
         const selecTime = data.base_location;
         const converTime = data.target_location;
-        
-       
+
         const embed = new EmbedBuilder()
           .setTitle(`**Zone time**`)
           .setColor("blue")
@@ -116,7 +104,10 @@ module.exports = {
             },
           ])
           .setFooter({
-            text: `time difference: ${dateDiffer(selecTime.datetime, converTime.datetime)}`,
+            text: `time difference: ${dateDiffer(
+              selecTime.datetime,
+              converTime.datetime
+            )}`,
           });
 
         // Enviar mensaje

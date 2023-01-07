@@ -28,6 +28,8 @@ module.exports = {
     const msg = interaction.options.getString("text");
     const getImageObj = new SearchImage({ textImg: msg, count: 8 });
     const getImage = await getImageObj.petition();
+    
+    // Embed
     const embed = new EmbedBuilder()
       .setTitle(getImage.nameImg)
       .setColor("Random")
