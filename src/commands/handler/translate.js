@@ -14,7 +14,7 @@ module.exports = {
     const encodedParams = new URLSearchParams();
     encodedParams.append("q", textEs);
     encodedParams.append("target", "en");
-    encodedParams.append("source", "es");
+    // encodedParams.append("source", "es");
 
     const options = {
       method: "POST",

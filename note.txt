@@ -32,7 +32,7 @@ client.on('interactionCreate', async interaction => {
 *
 * - convetor de tiempo (complete)
 *
-* - commando que convierta mi zona horaria a otra
+* - commando que convierta mi zona horaria a otra (complete)
 *
 *
 *

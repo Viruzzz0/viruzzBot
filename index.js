@@ -20,9 +20,11 @@ const logCommand = (i) => {
 };
 
 client.on("ready", async (async) => {
-  client.user.setStatus("invisible");
+  client.user.setStatus("idli");
 });
-
+client.on("messageCreate", async (message) => {
+  logCommand(message)
+})
 // !Functions que carga los comandos Handler
 
 client.commands = new Discord.Collection();
@@ -38,13 +40,12 @@ for (const file of commandFiles) {
 }
 
 client.on("messageCreate", async (message) => {
-  let prefix = "-";
 
-  if (!message.content.startsWith(prefix)) return;
+  if (!message.content.startsWith(config.prefix)) return;
   if (message.author.bot) return;
 
   const usuario = message.mentions.members.first() || message.member;
-  const args = message.content.slice(prefix.length).trim().split(/ +/g);
+  const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
 
   let cmd = client.commands.find(
