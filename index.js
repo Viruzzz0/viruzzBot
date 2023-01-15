@@ -12,7 +12,7 @@ const client = new Client({
   ],
 });
 const logCommand = (i) => {
-  console.log({
+  console.log("--------------------------------------------\n", {
     user: i.author.username,
     content: i.content,
     id: i.author.id,
@@ -20,11 +20,12 @@ const logCommand = (i) => {
 };
 
 client.on("ready", async (async) => {
-  client.user.setStatus("idli");
+  // client.user.setStatus("idli");
+  client.user.setStatus("invisible");
 });
 client.on("messageCreate", async (message) => {
-  logCommand(message)
-})
+  logCommand(message);
+});
 // !Functions que carga los comandos Handler
 
 client.commands = new Discord.Collection();
@@ -40,7 +41,6 @@ for (const file of commandFiles) {
 }
 
 client.on("messageCreate", async (message) => {
-
   if (!message.content.startsWith(config.prefix)) return;
   if (message.author.bot) return;
 
@@ -71,18 +71,35 @@ for (const file of slashcommandsFiles) {
 }
 
 client.on("interactionCreate", async (interaction) => {
+  if (interaction.isAutocomplete()) {
+    const command = interaction.client.slashcommands.get(
+      interaction.commandName
+    );
+
+    if (!command) {
+      console.error(
+        `No command matching ${interaction.commandName} was found.`
+      );
+      return;
+    }
+
+    try {
+      await command.autocomplete(interaction);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   if (!interaction.isCommand()) return;
 
   const slashcmds = client.slashcommands.get(interaction.commandName);
-
   if (!slashcmds) return;
-
   try {
     await slashcmds.run(client, interaction);
   } catch (err) {
     console.error(err);
   }
-  console.log({
+  console.log("--------------------------------------------\n", {
     user: interaction.user.username,
     command: interaction.commandName,
     id: interaction.user.id,
