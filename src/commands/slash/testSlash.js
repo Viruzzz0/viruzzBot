@@ -20,7 +20,6 @@ module.exports = {
 
   async autocomplete(interaction) {
     const focusedOption = interaction.options.getFocused(true);
-    const insertText = (strin, txt) => strin.slice(0, 0) + txt + strin.slice(0);
     let choices;
 
     const options = {
@@ -52,26 +51,42 @@ module.exports = {
         console.error(error);
       });
 
-    // console.log(choices);
-
-    
-
-    const filtered = choices
-      .map((choice) => `${choice.name} ${choice.artists}`)
-      .filter((choice) => choice.toLowerCase().startsWith(focusedOption.value.toLowerCase()))
-      .map((choice) => insertText(choice.split(" ").join(" - "), "🎵 "));
+    const filtered = choices.filter((choice) =>
+      `${choice.name} ${choice.artists}`
+        .toLowerCase()
+        .startsWith(focusedOption.value.toLowerCase())
+    );
 
     await interaction.respond(
-      filtered.map((choice) => ({ name: choice, value: "lol" }))
+      filtered.map((choice) => ({
+        name: `🎵 ${choice.name} ${choice.artists}`,
+        value: choice.id,
+      }))
     );
   },
 
   async run(client, interaction) {
-    const selec = interaction.options.getString("query");
-    // const selecValue = interaction.options.getFocused(true);
-    console.log(selec);
+    const select = interaction.options.getString("query");
+
+    const options = {
+      method: "GET",
+      url: "https://spotify23.p.rapidapi.com/track_lyrics/",
+      params: { id: select },
+      headers: {
+        "X-RapidAPI-Key": "36590803f9msha11501751d36d00p1fea43jsn9868f6861b7d",
+        "X-RapidAPI-Host": "spotify23.p.rapidapi.com",
+      },
+    };
+
+    const lyrics = await axios
+      .request(options)
+      .then((res) => res.data.lyrics.lines)
+      .catch(function (error) {
+        console.error(error);
+      });
+
     await interaction.reply({
-      content: `search lyrics ${selec}`,
+      content: `${lyrics.map(line => line.words + '\n')}`
     });
   },
 };
