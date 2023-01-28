@@ -11,20 +11,25 @@ const client = new Client({
     GatewayIntentBits.GuildMembers,
   ],
 });
-const logCommand = (i) => {
+const logCommand = async (i) => {
   console.log("--------------------------------------------\n", {
-    user: i.author.username,
+    bot: i.author.bot,
+    user:`${i.author.username}#${i.author.discriminator}`,
     content: i.content,
     id: i.author.id,
+    commandName: await i.interaction ? i.interaction.commandName : null,
+    embeds: i.embeds,
   });
+  // console.log(i);
 };
 
 client.on("ready", async (async) => {
-  // client.user.setStatus("idli");
-  client.user.setStatus("invisible");
+  client.user.setStatus("idle");
+  // client.user.setStatus("invisible");
 });
 client.on("messageCreate", async (message) => {
   logCommand(message);
+  // console.log(message.interaction);
 });
 // !Functions que carga los comandos Handler
 
@@ -54,7 +59,7 @@ client.on("messageCreate", async (message) => {
   if (cmd) {
     cmd.execute(client, message, args);
   }
-  logCommand(message);
+  // logCommand(message);
 });
 
 // !Function que carga los slashcommands
@@ -100,16 +105,19 @@ client.on("interactionCreate", async (interaction) => {
     console.error(err);
   }
   console.log("--------------------------------------------\n", {
-    user: interaction.user.username,
+    user: `${interaction.user.username}#${interaction.user.discriminator}`,
     command: interaction.commandName,
     id: interaction.user.id,
+    serverName: interaction.member.guild.name
   });
+  // console.log(interaction);
 });
 
 // ? bot ready
 
 client.on("ready", (async) => {
   console.log(`Bot is ready as ${client.user.tag}`);
+  client.user.setStatus("idle");
   // mensaje directo a el canal bot
   // client.channels.cache.get("834250914096611368").send({ content: `cerra el orto` })
 });

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +16,8 @@
     "discord.js": "14.6.0",
     "figlet": "^1.5.2",
     "fs": "0.0.1-security"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }

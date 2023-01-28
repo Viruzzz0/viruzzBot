@@ -16,75 +16,72 @@ module.exports = {
   name: "cripto",
   alias: ["c"],
 
-  execute(client, message, args) {
+  async execute(client, message, args) {
     // Peticion a la api con axios
-    axios
+    const res = await axios
       .request(options)
-      // .then((response) => response.json())
-      .then(function (response) {
-        console.log("MIO", response.data);
-      })
+      .then((response) => response)
       .catch(function (error) {
         console.error(error);
       });
 
-    // const criptoMoney = result.data;
+    const criptoMoney = res.data;
 
-    // // Filtra toda la api para retornar una cripto determinada
-    // const search = (query) => {
-    //   return criptoMoney.filter((item) => {
-    //     return item.id === query;
-    //   });
-    // };
-    // e;
-    // const btc = search("bitcoin");
-    // const eth = search("ethereum");
-    // const bnb = search("binancecoin");
-    // const sol = search("solana");
-    // const xmr = search("monero");
+    // Filtra toda la api para retornar una cripto determinada
+    const search = (query) => {
+      return criptoMoney.filter((item) => {
+        return item.id === query;
+      });
+    };
 
-    // // Muestra un embed con todas las criptos pedidas
-    // // El "Intl.NumberFormat().format" solo le da un formato de los miles con punto
-    // const embed = new EmbedBuilder()
-    //   .setTitle("Popular Criptos")
-    //   .setColor("Gold")
-    //   .setURL("https://www.coingecko.com")
-    //   .setDescription("Precios actuales")
-    //   .addFields([
-    //     {
-    //       name: btc[0].name,
-    //       value: Intl.NumberFormat().format(btc[0].current_price),
-    //     },
-    //   ])
-    //   .addFields([
-    //     {
-    //       name: eth[0].name,
-    //       value: Intl.NumberFormat().format(eth[0].current_price),
-    //     },
-    //   ])
-    //   .addFields([
-    //     {
-    //       name: bnb[0].name,
-    //       value: Intl.NumberFormat().format(bnb[0].current_price),
-    //     },
-    //   ])
-    //   .addFields([
-    //     {
-    //       name: sol[0].name,
-    //       value: Intl.NumberFormat().format(sol[0].current_price),
-    //     },
-    //   ])
-    //   .addFields([
-    //     {
-    //       name: xmr[0].name,
-    //       value: Intl.NumberFormat().format(xmr[0].current_price),
-    //     },
-    //   ])
-    //   .setImage(
-    //     "https://www.bitcoin.com.mx/content/images/2020/05/Criptomonedas_pago_empleo.png"
-    //   )
-    //   .setTimestamp(Date.now());
+    const btc = search("bitcoin");
+    const eth = search("ethereum");
+    const bnb = search("binancecoin");
+    const sol = search("solana");
+    const xmr = search("monero");
 
-    // message.channel.send({ embeds: [embed] });
+    // Muestra un embed con todas las criptos pedidas
+    // El "Intl.NumberFormat().format" solo le da un formato de los miles con punto
+    const embed = new EmbedBuilder()
+      .setTitle("Popular Criptos")
+      .setColor("Gold")
+      .setURL("https://www.coingecko.com")
+      .setDescription("Precios actuales")
+      .addFields([
+        {
+          name: btc[0].name,
+          value: Intl.NumberFormat().format(btc[0].current_price),
+        },
+      ])
+      .addFields([
+        {
+          name: eth[0].name,
+          value: Intl.NumberFormat().format(eth[0].current_price),
+        },
+      ])
+      .addFields([
+        {
+          name: bnb[0].name,
+          value: Intl.NumberFormat().format(bnb[0].current_price),
+        },
+      ])
+      .addFields([
+        {
+          name: sol[0].name,
+          value: Intl.NumberFormat().format(sol[0].current_price),
+        },
+      ])
+      .addFields([
+        {
+          name: xmr[0].name,
+          value: Intl.NumberFormat().format(xmr[0].current_price),
+        },
+      ])
+      .setImage(
+        "https://www.bitcoin.com.mx/content/images/2020/05/Criptomonedas_pago_empleo.png"
+      )
+      .setTimestamp(Date.now());
+
+    message.channel.send({ embeds: [embed] });
   },
 };
