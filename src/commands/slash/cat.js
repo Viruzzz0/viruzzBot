@@ -1,32 +1,35 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder } = require("discord.js");
-const axios = require("axios");
-const API = "https://api.thecatapi.com/v1/images/search";
+const { catSay } = require("../subcommands/cat/catSay");
+const { catRandom } = require("../subcommands/cat/catRandom");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("cat")
-    .setDescription("Devuelve una imagen random de un gato :D"),
+    .setDescription("Devuelve una imagen random de un gato :D")
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("say")
+        .setDescription("search for an image")
+        .addStringOption((option) =>
+          option
+            .setName("text")
+            .setDescription("Enter a text")
+            .setRequired(true)
+        )
+        .addIntegerOption((option) =>
+          option
+            .setName("resolution")
+            .setDescription("Enter a text")
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("random")
+        .setDescription("search for an image")
+    ),
 
   async run(client, interaction) {
-    const catRandom = async (urlApi) => {
-      try {
-        const result = await axios(urlApi);
-        const dataCat = result.data;
-
-        const embed = new EmbedBuilder()
-          .setTitle("gato lol")
-          .setColor("Random")
-          .setImage(`${dataCat[0].url}`)
-          .setTimestamp();
-
-        await interaction.reply({
-          embeds: [embed],
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    catRandom(API);
+    if (interaction.options._subcommand === "say") catSay(interaction);
+    else if (interaction.options._subcommand === "random") catRandom(interaction);
   },
 };
