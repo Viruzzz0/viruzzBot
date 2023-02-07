@@ -1,8 +1,8 @@
 module.exports = {
-  name: "ping",
+  name: 'ping',
   alias: [],
 
-  execute(client, message, args) {
-    message.channel.send({ content: `Pong! **${client.ws.ping}**` });
-  },
-};
+  execute (client, message, args) {
+    message.channel.send({ content: `Pong! **${client.ws.ping}**` })
+  }
+}

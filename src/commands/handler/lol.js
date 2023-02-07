@@ -1,17 +1,17 @@
 module.exports = {
-  name: "lol",
+  name: 'lol',
   alias: [],
 
-  execute(client, message, args) {
-    const mensaje = args.join(" ");
-    if (!mensaje) return message.channel.send("Escribe algo");
+  execute (client, message, args) {
+    const mensaje = args.join(' ')
+    if (!mensaje) return message.channel.send('Escribe algo')
 
     // Quita el ultimo elemento del array args y lo
     // guarda (numero de veces que se repite el mensaje)
-    let rep = args.pop();
+    const rep = args.pop()
 
     // Vuelve el array args y lo guarda como string
-    const msg = args.join(" ");
+    const msg = args.join(' ')
 
     // console.log(`${msg}`);
 
@@ -25,13 +25,13 @@ module.exports = {
     //     return gg
     // }
 
-    let num = 0;
+    let num = 0
     while (num < rep) {
       setTimeout(function () {
-        message.channel.send(`${msg} ${msg} ${msg} ${msg} `);
-      }, 700);
-      num++;
+        message.channel.send(`${msg} ${msg} ${msg} ${msg} `)
+      }, 700)
+      num++
     }
-    message.delete();
-  },
-};
+    message.delete()
+  }
+}

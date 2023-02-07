@@ -1,24 +1,24 @@
-const figlet = require("figlet");
+const figlet = require('figlet')
 
 module.exports = {
-  name: "ascii",
+  name: 'ascii',
   alias: [],
 
-  execute(client, message, args) {
-    function sisi(params) {
+  execute (client, message, args) {
+    function sisi (params) {
       return figlet.textSync(params, {
-        font: "Standard",
-        whitespaceBreak: true,
-      });
+        font: 'Standard',
+        whitespaceBreak: true
+      })
     }
     // const mensaje = args.join(" ");
     let text = ''
     args.forEach((item) => {
-      text = text + `${item}\n`;
+      text = text + `${item}\n`
     })
-    message.channel.send("```" + sisi(text) + "```");
-  },
-};
+    message.channel.send('```' + sisi(text) + '```')
+  }
+}
 
 // figlet.textSync("Boo!", {
 //   font: "Standard",
