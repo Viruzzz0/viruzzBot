@@ -16,8 +16,8 @@ async function resize (interaction) {
     name = url.split('/').pop().split('.')[0]
   }
 
-  const buffer = await axios.get(url, { responseType: 'arraybuffer' })
-  // const buffer = Buffer.from(response.data, 'utf-8')
+  const response = await axios.get(url, { responseType: 'arraybuffer' })
+  const buffer = Buffer.from(response.data, 'utf-8')
 
   // { animated: true  }
   const { data, info } = await sharp(buffer, { animated: true })

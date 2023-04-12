@@ -1,7 +1,6 @@
 const Discord = require('discord.js')
 const config = require('./config.json')
 const fs = require('fs')
-const { log } = require('console')
 const { Client, GatewayIntentBits } = require('discord.js')
 const client = new Client({
   intents: [
