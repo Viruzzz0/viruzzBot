@@ -1,7 +1,11 @@
 const Discord = require('discord.js')
 const config = require('./config.json')
+const dotenv = require('dotenv')
 const fs = require('fs')
 const { Client, GatewayIntentBits } = require('discord.js')
+
+dotenv.config()
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -41,14 +45,14 @@ for (const file of commandFiles) {
   const command = require(`./src/commands/handler/${file}`)
   client.commands.set(command.name, command)
   // console.log(command);
-  const commandName = file.split('.'[0])
+  // const commandName = file.split('.'[0])
 }
 
 client.on('messageCreate', async (message) => {
   if (!message.content.startsWith(config.prefix)) return
   if (message.author.bot) return
 
-  const usuario = message.mentions.members.first() || message.member
+  // const usuario = message.mentions.members.first() || message.member
   const args = message.content.slice(config.prefix.length).trim().split(/ +/g)
   const command = args.shift().toLowerCase()
 
@@ -127,4 +131,4 @@ client.on('message', (message) => {
   }
 })
 
-client.login(config.token)
+client.login(process.env.TOKEN)
