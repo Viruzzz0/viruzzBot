@@ -6,6 +6,8 @@ const { Client, GatewayIntentBits } = require('discord.js')
 
 dotenv.config()
 
+console.log('Iniciando...')
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
