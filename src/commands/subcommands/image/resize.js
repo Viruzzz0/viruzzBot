@@ -9,7 +9,6 @@ async function resize (interaction) {
   let url = interaction.options.getString('url')
   let name
 
-  console.log(url)
   if (attachmentUser) {
     url = attachmentUser.attachment
   } else {
@@ -36,7 +35,7 @@ async function resize (interaction) {
     .setTitle('Resize')
     .addFields({ name: 'width', value: `${info.width}`, inline: true })
     .addFields({ name: 'height', value: `${info.height}`, inline: true })
-    .setColor('blue')
+    // .setColor('blue')
     .setImage(`attachment://${name}.${info.format}`)
     .setFooter({
       text: `format: ${info.format}`
