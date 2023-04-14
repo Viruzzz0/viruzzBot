@@ -10,7 +10,11 @@ const commandFiles = fs.readdirSync('./src/commands/slash').filter(file => file.
 
 for (const file of commandFiles) {
   const command = require(`./src/commands/slash/${file}`)
-  commands.push(command.data.toJSON())
+  if ('data' in command && 'run' in command) {
+    commands.push(command.data.toJSON())
+  } else {
+    console.log(`[WARNING] The command at ${file} is missing a required "data" or "execute" property.`)
+  }
 }
 
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);

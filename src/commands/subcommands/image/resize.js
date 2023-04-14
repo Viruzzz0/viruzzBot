@@ -1,19 +1,14 @@
 const { AttachmentBuilder, EmbedBuilder } = require('discord.js')
 const sharp = require('sharp')
 const axios = require('axios')
-// const { Buffer } = require('node:buffer')
 
 async function resize (interaction) {
   const attachmentUser = interaction.options.getAttachment('image')
   const resolution = interaction.options.getInteger('resolution')
   let url = interaction.options.getString('url')
-  let name
+  const name = 'newImage'
 
-  if (attachmentUser) {
-    url = attachmentUser.attachment
-  } else {
-    name = url.split('/').pop().split('.')[0]
-  }
+  if (attachmentUser) url = attachmentUser.attachment
 
   const response = await axios.get(url, { responseType: 'arraybuffer' })
   const buffer = Buffer.from(response.data, 'utf-8')
@@ -25,6 +20,8 @@ async function resize (interaction) {
     .catch(err => {
       console.log(err)
     })
+
+  // console.log('resolution', data.width, data.height)
 
   const attachment = new AttachmentBuilder()
     .setFile(data)
