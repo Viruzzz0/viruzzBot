@@ -113,7 +113,7 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setTitle('Convert')
-      .setColor('blue')
+      // .setColor('blue')
       .setFields([
         { name: `${time}`, value: `${num}`, inline: true },
         { name: `${toTime}`, value: `${numReturn}`, inline: true }

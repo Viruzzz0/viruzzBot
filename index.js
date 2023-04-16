@@ -3,10 +3,13 @@ const config = require('./config.json')
 const dotenv = require('dotenv')
 const fs = require('fs')
 const { Client, GatewayIntentBits } = require('discord.js')
+const { ServerConnection } = require('./database.js')
+const { schemaModelMessage } = require('./models/messageModel')
 
 dotenv.config()
+ServerConnection()
 
-console.log('Iniciando bot... ')
+console.log('Starting bot... ')
 
 const client = new Client({
   intents: [
@@ -25,17 +28,44 @@ const logCommand = async (i) => {
     commandName: await i.interaction ? i.interaction.commandName : null,
     embeds: i.embeds
   })
-  // console.log(i);
 }
 
 client.on('ready', async (async) => {
   client.user.setStatus('idle')
   // client.user.setStatus("invisible");
 })
+
 client.on('messageCreate', async (message) => {
   logCommand(message)
-  // console.log(message.interaction);
+
+  const DataBase = schemaModelMessage(message.channel.guild.name)
+  const newMsg = new DataBase({
+    id: message.author.id,
+    bot: message.author.bot,
+    username: message.author.username,
+    discriminator: message.author.discriminator,
+    avatar: message.author.avatar,
+    channelId: message.channel.id,
+    channelName: message.channel.name,
+    content: message.content,
+    createdTimestamp: message.createdTimestamp,
+    embeds: message.embeds,
+    commandAction: message.interaction,
+    guild: {
+      id: message.guild,
+      name: message.guild.name,
+      icon: message.guild.icon,
+      memberCount: message.guild.memberCount,
+      preferredLocale: message.guild.preferredLocale
+    }
+  })
+
+  newMsg
+    .save()
+    .then(() => console.log('File saved!'))
+    .catch(err => console.error('Error saving file', err))
 })
+
 // !Functions que carga los comandos Handler
 
 client.commands = new Discord.Collection()
@@ -64,7 +94,6 @@ client.on('messageCreate', async (message) => {
   if (cmd) {
     cmd.execute(client, message, args)
   }
-  // logCommand(message);
 })
 
 // !Function que carga los slashcommands
@@ -115,7 +144,6 @@ client.on('interactionCreate', async (interaction) => {
     id: interaction.user.id,
     serverName: interaction.member.guild.name
   })
-  // console.log(interaction);
 })
 
 // ? bot ready
@@ -125,12 +153,6 @@ client.on('ready', (async) => {
   client.user.setStatus('idle')
   // mensaje directo a el canal bot
   // client.channels.cache.get("834250914096611368").send({ content: `cerra el orto` })
-})
-client.on('message', (message) => {
-  if (message.channel.type === 'dm') {
-    // put your code here
-    console.log(message.content)
-  }
 })
 
 client.login(process.env.TOKEN)
