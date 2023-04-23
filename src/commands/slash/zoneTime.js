@@ -94,7 +94,6 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setTitle('**Zone time**')
-      .setColor('blue')
       .setFields([
         {
           name: `🌍 **${selecTime.requested_location}**`,

@@ -30,11 +30,6 @@ const logCommand = async (i) => {
   })
 }
 
-client.on('ready', async (async) => {
-  client.user.setStatus('idle')
-  // client.user.setStatus("invisible");
-})
-
 client.on('messageCreate', async (message) => {
   logCommand(message)
 
@@ -49,6 +44,7 @@ client.on('messageCreate', async (message) => {
     channelName: message.channel.name,
     content: message.content,
     createdTimestamp: message.createdTimestamp,
+    messageDate: new Date(message.createdTimestamp),
     embeds: message.embeds,
     commandAction: message.interaction,
     guild: {

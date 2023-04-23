@@ -11,6 +11,7 @@ const fileSchema = new Schema({
   channelName: String,
   content: String,
   createdTimestamp: Number,
+  messageDate: Date,
   embeds: Object,
   commandAction: Object,
   guild: Object

@@ -9,13 +9,12 @@ class ToggleEmbed {
   async action (count) {
     return {
       on: async () => {
-        console.log(count)
         if (this.collector.customId === 'next') {
           if (count >= this.images.length - 1) --count
 
           ++count
           await this.collector.deferUpdate()
-          this.embed.setImage(this.images[count])
+          await this.embed.setImage(this.images[count])
           this.embed.setFooter({
             text: `Image ${count}`
           })
@@ -28,7 +27,7 @@ class ToggleEmbed {
 
           --count
           await this.collector.deferUpdate()
-          this.embed.setImage(this.images[count])
+          await this.embed.setImage(this.images[count])
           this.embed.setFooter({
             text: `Image ${count}`
           })

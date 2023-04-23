@@ -9,7 +9,7 @@ const {
 
 async function image (interaction) {
   const msg = interaction.options.getString('text')
-  const getImageObj = new SearchImage({ textImg: msg, count: 8 })
+  const getImageObj = new SearchImage({ textImg: msg, count: 10 })
   const getImage = await getImageObj.petition()
 
   // Embed
